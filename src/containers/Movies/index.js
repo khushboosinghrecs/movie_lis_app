@@ -13,7 +13,7 @@ import styles from "./styles.module.scss";
 
 const Movie = () => {
   const [searchValue, setSearchValue] = useState("movie");
-  const [movies, setMovies] = useState(data);
+  const [movies, setMovies] = useState([]);
   const [movieTitle, setMovieTitle] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentMovieIndex, setCurrentMovieIndex] = useState(null);
