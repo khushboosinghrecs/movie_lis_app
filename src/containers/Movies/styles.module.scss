@@ -1,0 +1,12 @@
+.movieContainer {
+  margin: 0 auto;
+  width: 80%;
+  .searchContainer {
+    padding: 20px;
+    .searchWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+}
