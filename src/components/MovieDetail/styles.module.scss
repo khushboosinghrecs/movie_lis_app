@@ -1,11 +1,31 @@
 .movieDetail {
   width: 500px;
-  height: 300px;
-  padding: 20px 40px;
+  //   height: 300px;
+  padding: 80px 40px;
   display: flex;
-  align-items: center;
   justify-content: center;
   .movieDetailWrapper {
-    width: auto;
+    width: 100%;
+
+    .searchHeading {
+      text-align: center;
+    }
+    input {
+      border: none;
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: -2px 9px gray;
+      width: 95%;
+      box-sizing: content-box;
+      margin: 20px 0px;
+      &:focus {
+        outline: none;
+      }
+    }
+    .save {
+      width: 100%;
+
+      margin: 20px 0px;
+    }
   }
 }

@@ -1,8 +1,6 @@
-/**
- * @file Button Component
- */
-
 import React from "react";
+import cx from "classnames";
+
 import styles from "./styles.module.scss";
 
 const Button = (props) => {
@@ -13,7 +11,7 @@ const Button = (props) => {
       onClick={onClick}
       disabled={disabled}
       type="button"
-      className={styles.button}
+      className={cx(styles.button, className)}
       {...rest}
     >
       <div className="text">{children}</div>
@@ -21,10 +19,10 @@ const Button = (props) => {
   );
 };
 
-/**
- * This component provides a way to render button components with various styling options.
- * @example
- * <Button variant={ButtonVariant.SECONDARY} rightIcon={<Icon />} >Click me</Button>
- */
-
 export default Button;
+
+/**
+*This component provides a way to render button component with various styling options 
+*@example
+<Button onClick={onClick}>click me </Button>
+*/

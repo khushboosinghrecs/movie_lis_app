@@ -6,7 +6,6 @@ import React, { useRef, memo } from "react";
 import cx from "classnames";
 
 import useClickOutside from "../../hooks/useClickoutSide";
-// import useSlideDownAnimation from "hooks/useSlideDownAnimation";
 
 import Cross from "../../assets/svg/crooss.svg";
 
