@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { Table } from "../../components/Table";
 import Button from "../../components/Button/Button";
@@ -6,23 +6,17 @@ import Modal from "../../components/Modal";
 import MovieDetail from "../../components/MovieDetail/MovieDetail";
 
 import { API_KEY, API_URL } from "../../url";
+import { columns } from "../../utills/constant";
+
 import Eye from "../../assets/svg/eye.svg";
-
 import styles from "./styles.module.scss";
-
-const columns = [
-  { header: "S.No", accessor: "sno" },
-  { header: "Movie Title", accessor: "title" },
-  { header: "Movie Poster", accessor: "moviePoster", isImage: true },
-  { header: "Action", accessor: "action" },
-  { header: "", accessor: "view" },
-];
 
 const Movie = () => {
   const [searchValue, setSearchValue] = useState("movie");
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(data);
   const [movieTitle, setMovieTitle] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentMovieIndex, setCurrentMovieIndex] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
 
   const openModal = () => setIsModalOpen(true);
@@ -30,8 +24,9 @@ const Movie = () => {
 
   const handleInputChange = (e) => setSearchValue(e.target.value);
 
-  const handleView = (ele) => () => {
-    setMovieTitle(ele.Title);
+  const handleView = (index) => () => {
+    setCurrentMovieIndex(index);
+    setMovieTitle(movies[index].Title);
     openModal();
   };
 
@@ -80,10 +75,22 @@ const Movie = () => {
     }
   };
 
+  const updateMovieTitle = useCallback(
+    (newTitle) => {
+      setMovies((prevMovies) => {
+        const updatedMovies = [...prevMovies];
+        if (currentMovieIndex !== null) {
+          updatedMovies[currentMovieIndex].Title = newTitle;
+        }
+        return updatedMovies;
+      });
+    },
+    [currentMovieIndex]
+  );
+
   const data2 = movies.map((ele, rowIndex) => ({
     sno: rowIndex + 1,
     title: ele?.Title,
-    // eslint-disable-next-line jsx-a11y/img-redundant-alt
     moviePoster: (
       <div className={styles.posterImage}>
         <img src={ele?.Poster} alt="image poster" />
@@ -91,7 +98,7 @@ const Movie = () => {
     ),
     action: <Button onClick={handleDelete(ele?.imdbID)}>Delete</Button>,
     view: (
-      <div onClick={handleView(ele)}>
+      <div className={styles.eyeIcon} onClick={handleView(rowIndex)}>
         <img src={Eye} alt="view" />
       </div>
     ),
@@ -99,7 +106,6 @@ const Movie = () => {
 
   useEffect(() => {
     getMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -117,12 +123,14 @@ const Movie = () => {
             <Button onClick={handleSort("Title")}>Sort</Button>
           </div>
         </div>
+
         {movies && movies?.length > 0 ? (
           <Table columns={columns} data={data2} />
         ) : (
           <p>loading.....</p>
         )}
       </div>
+
       <Modal
         isModalOpen={isModalOpen}
         closeModal={closeModal}
@@ -132,7 +140,11 @@ const Movie = () => {
         isCentered
         className={styles.requestModal}
       >
-        <MovieDetail closeModal={closeModal} movieTitle={movieTitle} />
+        <MovieDetail
+          closeModal={closeModal}
+          movieTitle={movieTitle}
+          updateMovieTitle={updateMovieTitle}
+        />
       </Modal>
     </>
   );
