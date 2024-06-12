@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 
 import { Table } from "../../components/Table";
 import Button from "../../components/Button/Button";
@@ -88,21 +88,23 @@ const Movie = () => {
     [currentMovieIndex]
   );
 
-  const data2 = movies.map((ele, rowIndex) => ({
-    sno: rowIndex + 1,
-    title: ele?.Title,
-    moviePoster: (
-      <div className={styles.posterImage}>
-        <img src={ele?.Poster} alt="image poster" />
-      </div>
-    ),
-    action: <Button onClick={handleDelete(ele?.imdbID)}>Delete</Button>,
-    view: (
-      <div className={styles.eyeIcon} onClick={handleView(rowIndex)}>
-        <img src={Eye} alt="view" />
-      </div>
-    ),
-  }));
+  const tableData = useMemo(() => {
+    return movies.map((ele, rowIndex) => ({
+      sno: rowIndex + 1,
+      title: ele?.Title,
+      moviePoster: (
+        <div className={styles.posterImage}>
+          <img src={ele?.Poster} alt="image poster" />
+        </div>
+      ),
+      action: <Button onClick={handleDelete(ele?.imdbID)}>Delete</Button>,
+      view: (
+        <div className={styles.eyeIcon} onClick={handleView(rowIndex)}>
+          <img src={Eye} alt="view" />
+        </div>
+      ),
+    }));
+  }, [movies]);
 
   useEffect(() => {
     getMovies();
@@ -125,7 +127,7 @@ const Movie = () => {
         </div>
 
         {movies && movies?.length > 0 ? (
-          <Table columns={columns} data={data2} />
+          <Table columns={columns} data={tableData} />
         ) : (
           <p>loading.....</p>
         )}
