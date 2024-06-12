@@ -80,13 +80,10 @@ const Movie = () => {
     }
   };
 
-  useEffect(() => {
-    getMovies();
-  }, []);
-
   const data2 = movies.map((ele, rowIndex) => ({
     sno: rowIndex + 1,
     title: ele?.Title,
+    // eslint-disable-next-line jsx-a11y/img-redundant-alt
     moviePoster: <img src={ele?.Poster} alt="image poster" />,
     action: <Button onClick={handleDelete(ele?.imdbID)}>Delete</Button>,
     view: (
@@ -95,6 +92,11 @@ const Movie = () => {
       </div>
     ),
   }));
+
+  useEffect(() => {
+    getMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

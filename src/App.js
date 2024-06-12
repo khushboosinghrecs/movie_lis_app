@@ -1,6 +1,5 @@
-import logo from "./logo.svg";
-import "./App.css";
 import Movie from "./containers/Movies";
+import "./App.css";
 
 function App() {
   return (

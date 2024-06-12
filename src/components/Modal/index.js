@@ -19,14 +19,10 @@ const Modal = (props) => {
     className,
     iconPosition,
     children,
-    setIsModalOpen,
     shouldHandleOutsideClick,
     isCentered,
     darkBackground,
-    iconType: Icon = Cross,
   } = props;
-
-  // const { isAnimationTriggered } = setIsModalOpen;
 
   const modalContainerRef = useRef(null);
 
